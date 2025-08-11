@@ -65,4 +65,28 @@ describe('effect', () => {
     user.age++
     expect(num).toBe(12)
   })
+
+  it('onStop', () => {
+    let num
+    const user = reactive({ age: 10 })
+    const onStop = jest.fn(() => {
+      return 'onStop'
+    })
+
+    const runner = effect(
+      () => {
+        num = user.age
+
+        // user.age++
+      },
+      {
+        onStop,
+      }
+    )
+    expect(user.age).toBe(10)
+    expect(onStop).toHaveBeenCalledTimes(0)
+    const res = stop(runner)
+    expect(res).toBe('onStop')
+    expect(onStop).toHaveBeenCalledTimes(1)
+  })
 })

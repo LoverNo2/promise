@@ -1,21 +1,33 @@
-import { track, trigger } from './effect'
+import { reactiveHandler, readonlyHandler, shallowReactiveHandler, shallowReadonlyHandler } from './basehandler'
+
+import { ReactiveFlags } from './flag'
 
 function reactive(raw) {
-  return new Proxy(raw, {
-    get(target, key) {
-      const res = Reflect.get(target, key)
-      //todo 依赖收集
-      track(target, key)
-      return res
-    },
-    set(target, key, value) {
-      const res = Reflect.set(target, key, value)
-      //todo 触发更新
-      trigger(target, key)
-
-      return res
-    },
-  })
+  return createReactiveObject(raw, reactiveHandler)
 }
 
-export { reactive }
+function readonly(raw) {
+  return createReactiveObject(raw, readonlyHandler)
+}
+
+function shallowReactive(raw) {
+  return createReactiveObject(raw, shallowReactiveHandler)
+}
+
+function shallowReadonly(raw) {
+  return createReactiveObject(raw, shallowReadonlyHandler)
+}
+
+function createReactiveObject(raw, handler, isShallow = false) {
+  return new Proxy(raw, handler)
+}
+
+function isReactive(raw) {
+  return raw[ReactiveFlags.IS_REACTIVE]
+}
+
+function isReadonly(raw) {
+  return raw[ReactiveFlags.IS_READONLY]
+}
+
+export { reactive, readonly, shallowReactive, shallowReadonly, isReactive, isReadonly }
