@@ -1,30 +1,38 @@
 import { isArray, isObject } from '../shared'
 import { track, trigger } from './effect'
 import { ReactiveFlags } from './flag'
-import { reactive, readonly } from './reactive'
+import { isShallowReadonly, reactive, readonly } from './reactive'
 
 const get = createGetter()
 const set = createSetter()
 const readonlyGet = createGetter(true)
 const readonlySet = createSetter(true)
+const shallowGet = createGetter(false, true)
+const shallowReadonlyGet = createGetter(true, true)
 
 function createGetter(isReadonly = false, isShallow = false) {
   return function get(target, key) {
     if (key === ReactiveFlags.IS_REACTIVE) {
       return !isReadonly
-    }
-    if (key === ReactiveFlags.IS_READONLY) {
+    } else if (key === ReactiveFlags.IS_READONLY) {
       return isReadonly
+    } else if (key === ReactiveFlags.IS_SHALLOW) {
+      return isShallow
+    } else if (key === ReactiveFlags.IS_SHALLOW_READONLY) {
+      return isShallow && isReadonly
+    } else if (key === ReactiveFlags.RAW) {
+      return target
     }
+
     const res = Reflect.get(target, key)
-    if (isObject(res) || isArray(res)) {
-      if (isShallow) {
-        return res
-      }
-      return isReadonly ? readonly(res) : reactive(res)
-    }
+
     if (!isReadonly) {
       track(target, key)
+    }
+    if (!isShallow) {
+      if (isObject(res) || isArray(res)) {
+        return isReadonly ? readonly(res) : reactive(res)
+      }
     }
     return res
   }
@@ -33,8 +41,8 @@ function createGetter(isReadonly = false, isShallow = false) {
 function createSetter(isReadonly = false) {
   return function set(target, key, value) {
     if (isReadonly) {
-      console.warn('只读对象不可设置')
-
+      console.warn(`Set operation on key "${key}" failed: target is readonly.`, target)
+      // Proxy规范要求返回布尔值
       return true
     }
     const res = Reflect.set(target, key, value)
@@ -54,12 +62,12 @@ const readonlyHandler = {
 }
 
 const shallowReactiveHandler = {
-  get: createGetter(false, true),
+  get: shallowGet,
   set,
 }
 
 const shallowReadonlyHandler = {
-  get: createGetter(true, true),
+  get: shallowReadonlyGet,
   set: readonlySet,
 }
 

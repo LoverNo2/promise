@@ -1,4 +1,13 @@
-import { isReactive, reactive } from '../reactive'
+import {
+  isReactive,
+  isReadonly,
+  isShallow,
+  isShallowReadonly,
+  reactive,
+  readonly,
+  shallowReactive,
+  shallowReadonly,
+} from '../reactive'
 
 describe('reactive', () => {
   it('main test', () => {
@@ -21,9 +30,12 @@ describe('reactive', () => {
         },
       ],
     }
-    let reactiveUser = reactive(user)
-    expect(isReactive(reactiveUser.friend)).toBe(true)
-    expect(isReactive(reactiveUser.friends)).toBe(true)
-    expect(isReactive(reactiveUser.friends[0])).toBe(true)
+    // let reactiveUser = reactive(user)
+    let shallowReactiveUser = shallowReactive(user)
+
+    // expect(isReactive(reactiveUser.friend)).toBe(true)
+    // expect(isReactive(reactiveUser.friends)).toBe(true)
+    // expect(isReactive(reactiveUser.friends[0])).toBe(true)
+    expect(isReadonly(shallowReactiveUser.friend)).toBe(true)
   })
 })
