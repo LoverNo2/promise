@@ -9,6 +9,7 @@ class ReactiveEffect {
     this.scheduler = options.scheduler
     this.onStop = options.onStop
     this.fn = fn
+    // computed需要
     activeEffect = this
   }
   run() {
