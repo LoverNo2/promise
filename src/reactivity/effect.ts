@@ -9,6 +9,7 @@ class ReactiveEffect {
     this.scheduler = options.scheduler
     this.onStop = options.onStop
     this.fn = fn
+    activeEffect = this
   }
   run() {
     return this.fn()
@@ -93,4 +94,4 @@ function stop(runner) {
     return runner.effect.onStop()
   }
 }
-export { effect, track, trigger, stop, trackEffect, triggerEffect }
+export { effect, track, trigger, stop, trackEffect, triggerEffect, ReactiveEffect }
