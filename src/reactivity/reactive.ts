@@ -38,6 +38,10 @@ function isShallowReadonly(raw) {
   return !!raw[ReactiveFlags.IS_SHALLOW_READONLY]
 }
 
+function isProxy(raw) {
+  return isReactive(raw) || isReadonly(raw)
+}
+
 function toRaw(raw) {
   return raw[ReactiveFlags.RAW]
 }
@@ -51,4 +55,5 @@ export {
   isShallow,
   isShallowReadonly,
   toRaw,
+  isProxy,
 }

@@ -20,5 +20,7 @@ const isNumber = function (target) {
 const isBigInt = function (target) {
   return Object.prototype.toString.call(target) === '[object BigInt]'
 }
-
-export { extend, isObject, isArray, isFunction, isString, isSymbol, isNumber, isBigInt }
+const hasChange = function (oldValue, newValue) {
+  return oldValue !== newValue
+}
+export { extend, isObject, isArray, isFunction, isString, isSymbol, isNumber, isBigInt, hasChange }

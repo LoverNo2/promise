@@ -28,14 +28,18 @@ describe('reactive', () => {
         {
           name: '张三',
         },
+        {
+          name: '李四',
+        },
       ],
     }
-    // let reactiveUser = reactive(user)
-    let shallowReactiveUser = shallowReactive(user)
+    let reactiveUser = shallowReactive(user.friends)
+
+    // let shallowReactiveUser = shallowReactive(user)
 
     // expect(isReactive(reactiveUser.friend)).toBe(true)
     // expect(isReactive(reactiveUser.friends)).toBe(true)
-    // expect(isReactive(reactiveUser.friends[0])).toBe(true)
-    expect(isReactive(shallowReactiveUser.friend)).toBe(false)
+    expect(isReactive(reactiveUser[0])).toBe(false)
+    // expect(isReactive(shallowReactiveUser.friend)).toBe(false)
   })
 })

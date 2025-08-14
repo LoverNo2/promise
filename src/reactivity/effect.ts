@@ -50,6 +50,17 @@ function track(target, key) {
     dep = new Set()
     depsMap.set(key, dep)
   }
+  trackEffect(dep)
+}
+
+function trackEffect(dep) {
+  if (!activeEffect) {
+    return
+  }
+  if (dep.has(activeEffect)) {
+    return
+  }
+
   dep.add(activeEffect)
   activeEffect.deps.push(dep)
 }
@@ -63,6 +74,10 @@ function trigger(target, key) {
   if (!dep) {
     return
   }
+  triggerEffect(dep)
+}
+
+function triggerEffect(dep) {
   dep.forEach(effect => {
     if (effect.scheduler) {
       effect.scheduler()
@@ -78,5 +93,4 @@ function stop(runner) {
     return runner.effect.onStop()
   }
 }
-
-export { effect, track, trigger, stop }
+export { effect, track, trigger, stop, trackEffect, triggerEffect }
