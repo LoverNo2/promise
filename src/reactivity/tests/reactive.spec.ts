@@ -36,6 +36,6 @@ describe('reactive', () => {
     // expect(isReactive(reactiveUser.friend)).toBe(true)
     // expect(isReactive(reactiveUser.friends)).toBe(true)
     // expect(isReactive(reactiveUser.friends[0])).toBe(true)
-    expect(isReadonly(shallowReactiveUser.friend)).toBe(true)
+    expect(isReactive(shallowReactiveUser.friend)).toBe(false)
   })
 })

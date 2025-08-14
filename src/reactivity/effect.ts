@@ -1,12 +1,16 @@
 import { extend } from '../shared'
 
 let activeEffect
+// activeEffect用于记录当前的effect
 class ReactiveEffect {
-  private fn
+  fn
   deps = []
   onStop?: () => void
+  scheduler?: () => void
 
-  constructor(fn, public scheduler?) {
+  constructor(fn, options) {
+    this.scheduler = options.scheduler
+    this.onStop = options.onStop
     this.fn = fn
   }
   run() {
@@ -24,7 +28,7 @@ function cleanupEffect(effect) {
 }
 
 function effect(fn, options) {
-  const _effect = new ReactiveEffect(fn, options.scheduler)
+  const _effect = new ReactiveEffect(fn, options)
   extend(_effect, options)
 
   activeEffect = _effect

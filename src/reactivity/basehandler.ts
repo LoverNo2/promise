@@ -1,7 +1,7 @@
 import { isArray, isObject } from '../shared'
 import { track, trigger } from './effect'
 import { ReactiveFlags } from './flag'
-import { isShallowReadonly, reactive, readonly } from './reactive'
+import { reactive, readonly } from './reactive'
 
 const get = createGetter()
 const set = createSetter()
