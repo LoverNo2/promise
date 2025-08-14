@@ -1,7 +1,4 @@
-import { extend } from '../shared'
-
 let activeEffect
-// activeEffect用于记录当前的effect
 class ReactiveEffect {
   fn
   deps = []
@@ -29,17 +26,16 @@ function cleanupEffect(effect) {
 
 function effect(fn, options) {
   const _effect = new ReactiveEffect(fn, options)
-  extend(_effect, options)
-
   activeEffect = _effect
   _effect.run()
+  activeEffect = null
   const runner: any = _effect.run.bind(_effect)
   runner.effect = _effect
-  activeEffect = null
+
   return runner
 }
 
-const targetMap = new Map()
+const targetMap = new WeakMap()
 function track(target, key) {
   if (!activeEffect) {
     return
