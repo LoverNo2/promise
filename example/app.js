@@ -5,14 +5,14 @@ const app = {
     return h(
       'div',
       {
-        class: 'h1',
+        style: 'color: rgba(255, 0, 0, 0.5)',
       },
-      'title:' + this.msg
+      [h('h1', {}, this.msg), h('p', {}, 'hello vue'), h('div', {}, 'hello world')]
     )
   },
   setup() {
     return {
-      msg: 'hello world',
+      msg: 'be happy',
     }
   },
 }

@@ -10,7 +10,10 @@ function mountComponent(vnode, container) {
 }
 
 async function setupRenderEffect(componentInstance, container) {
-  const subTree = componentInstance.render()
+  const { proxy } = componentInstance
+  // 这一步中会执行component的children中的h方法
+  const subTree = componentInstance.render.call(proxy)
+
   const { patch } = await import('./patch')
   patch(subTree, container)
 }
