@@ -1,8 +1,12 @@
+import { isString } from '../shared/index'
 import { processComponent } from './component'
 import { processElement } from './element'
 
 function patch(vnode, container) {
-  processComponent(vnode, container)
-  processElement(vnode, container)
+  if (isString(vnode.type)) {
+    processElement(vnode, container)
+  } else {
+    processComponent(vnode, container)
+  }
 }
 export { patch }

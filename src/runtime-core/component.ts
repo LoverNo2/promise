@@ -1,4 +1,3 @@
-import { patch } from './patch'
 import { setupComponent } from './setup'
 
 function processComponent(vnode, container) {
@@ -10,8 +9,9 @@ function mountComponent(vnode, container) {
   setupRenderEffect(componentInstance, container)
 }
 
-function setupRenderEffect(componentInstance, container) {
+async function setupRenderEffect(componentInstance, container) {
   const subTree = componentInstance.render()
+  const { patch } = await import('./patch')
   patch(subTree, container)
 }
 

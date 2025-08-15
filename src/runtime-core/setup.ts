@@ -1,4 +1,4 @@
-import { isObject } from '../shared'
+import { isObject } from '../shared/index'
 
 function setupComponent(componentInstance) {
   //todo initProps
@@ -21,9 +21,7 @@ function handleSetupResult(componentInstance, setupResult) {
 }
 function finishComponentSetup(componentInstance) {
   const component = componentInstance.type
-  if (component.render) {
-    componentInstance.render = component.render
-  }
+  componentInstance.render = component.render
 }
 
 export { setupComponent }

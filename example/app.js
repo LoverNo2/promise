@@ -1,3 +1,5 @@
+import { h } from '../dist/index.js'
+
 const app = {
   render() {
     return h(

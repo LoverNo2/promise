@@ -1,3 +1,3 @@
-import { createApp } from '../src/runtime-core/app'
-import App from './App.vue'
-createApp(App).mount('#app')
+import { createApp } from '../dist/index.js'
+import { app } from './app.js'
+createApp(app).mount('#app')
