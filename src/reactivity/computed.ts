@@ -1,13 +1,11 @@
 import { ReactiveEffect } from './effect'
 
 class ComputedRefImpl {
-  private _getter: () => any
   private _dirty: boolean = true
   private _value: any
   private _effect: ReactiveEffect
 
   constructor(getter: () => any) {
-    this._getter = getter
     this._effect = new ReactiveEffect(getter, {
       scheduler: () => {
         this._dirty = true
