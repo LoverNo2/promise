@@ -1,4 +1,5 @@
 import { isObject } from '../shared/index'
+import { handler } from './handler'
 
 function setupComponent(componentInstance) {
   //todo initProps
@@ -6,19 +7,10 @@ function setupComponent(componentInstance) {
   setupStatefulComponent(componentInstance)
 }
 function setupStatefulComponent(componentInstance) {
-  const component = componentInstance.type
-  componentInstance.proxy = new Proxy(
-    {},
-    {
-      get(target, key) {
-        const { setupState } = componentInstance
-        if (key in setupState) {
-          return setupState[key]
-        }
-      },
-    }
-  )
-  const { setup } = component
+  const raw = componentInstance.type
+  componentInstance.proxy = new Proxy({ _: componentInstance }, handler)
+
+  const { setup } = raw
   if (setup) {
     const setupResult = setup()
     handleSetupResult(componentInstance, setupResult)
@@ -31,8 +23,8 @@ function handleSetupResult(componentInstance, setupResult) {
   finishComponentSetup(componentInstance)
 }
 function finishComponentSetup(componentInstance) {
-  const component = componentInstance.type
-  componentInstance.render = component.render
+  const raw = componentInstance.type
+  componentInstance.render = raw.render
 }
 
 export { setupComponent }

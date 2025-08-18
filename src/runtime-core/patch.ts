@@ -1,11 +1,12 @@
-import { isObject, isString } from '../shared/index'
+import { ShapeFlags } from '../shared/index'
 import { processComponent } from './component'
 import { processElement } from './element'
 
 function patch(vnode, container) {
-  if (isString(vnode.type)) {
+  const { shapeFlag } = vnode
+  if (shapeFlag & ShapeFlags.ELEMENT) {
     processElement(vnode, container)
-  } else if (isObject(vnode.type)) {
+  } else if (shapeFlag & ShapeFlags.STATEFUL_COMPONENT) {
     processComponent(vnode, container)
   } else {
     console.warn('vnode type error')

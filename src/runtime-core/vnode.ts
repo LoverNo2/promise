@@ -1,8 +1,18 @@
+import { getShapeFlag, ShapeFlags } from '../shared/shape'
+import { isString, isArray } from '../shared/index'
+
 function createVNode(type, props?, children?) {
   const vnode = {
     type,
     props,
     children,
+    shapeFlag: getShapeFlag(type),
+    el: null,
+  }
+  if (isString(children)) {
+    vnode.shapeFlag |= ShapeFlags.TEXT_CHILDREN
+  } else if (isArray(children)) {
+    vnode.shapeFlag |= ShapeFlags.ARRAY_CHILDREN
   }
   return vnode
 }
