@@ -24,6 +24,7 @@ function createComponentInstance(vnode) {
     type: vnode.type,
     setupState: {},
     render: null,
+    props: {},
   }
   return componentInstance
 }

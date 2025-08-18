@@ -1,10 +1,8 @@
 import { h } from '../dist/index.js'
+import { component } from './component.js'
 
-window.self = null
 const app = {
   render() {
-    window.self = this
-
     return h(
       'div',
       {
@@ -18,10 +16,11 @@ const app = {
               console.log('click h1')
             },
           },
-          this.msg
+          this.count
         ),
         h('p', {}, 'hello vue'),
         h('div', {}, 'hello world'),
+        h(component, { count: 1 }),
       ]
     )
   },

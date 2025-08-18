@@ -1,11 +1,14 @@
 import { isObject } from '../shared/index'
 import { handler } from './handler'
+import { initProps } from './props'
 
 function setupComponent(componentInstance) {
-  //todo initProps
+  initProps(componentInstance, componentInstance.vnode.props)
+
   //todo initSlots
   setupStatefulComponent(componentInstance)
 }
+
 function setupStatefulComponent(componentInstance) {
   const raw = componentInstance.type
   componentInstance.proxy = new Proxy({ _: componentInstance }, handler)
@@ -13,6 +16,7 @@ function setupStatefulComponent(componentInstance) {
   const { setup } = raw
   if (setup) {
     const setupResult = setup()
+
     handleSetupResult(componentInstance, setupResult)
   }
 }
