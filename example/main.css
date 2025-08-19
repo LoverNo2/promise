@@ -2,14 +2,16 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: Menlo, '微软雅黑';
+  font-family: 'JetBrains Mono', '微软雅黑';
 }
 #app {
   height: 100vh;
   width: 100vw;
-  background-color: #f5f5f5;
+  background-color: rgb(24, 29, 39);
+  color: rgba(255, 255, 255, 0.2);
+
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 40px;
+  font-size: 20px;
 }

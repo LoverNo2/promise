@@ -1,4 +1,4 @@
-import { ShapeFlags } from '../shared/index'
+import { ShapeFlags } from '../shared/shape'
 import { processComponent } from './component'
 import { processElement } from './element'
 

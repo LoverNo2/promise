@@ -1,5 +1,5 @@
 import { getShapeFlag, ShapeFlags } from '../shared/shape'
-import { isString, isArray } from '../shared/index'
+import { isString, isArray } from '../shared/utils'
 
 function createVNode(type, props?, children?) {
   const vnode = {

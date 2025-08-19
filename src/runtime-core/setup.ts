@@ -1,21 +1,24 @@
-import { isObject } from '../shared/index'
+import { shallowReadonly } from '../reactivity/reactive'
+import { isObject } from '../shared/utils'
 import { handler } from './handler'
 import { initProps } from './props'
+import { initSlots } from './slot'
 
 function setupComponent(componentInstance) {
-  initProps(componentInstance, componentInstance.vnode.props)
+  const { props, children } = componentInstance
+  initProps(componentInstance, props)
+  initSlots(componentInstance, children)
 
-  //todo initSlots
   setupStatefulComponent(componentInstance)
 }
 
 function setupStatefulComponent(componentInstance) {
-  const raw = componentInstance.type
+  const { props, type, emit } = componentInstance
   componentInstance.proxy = new Proxy({ _: componentInstance }, handler)
 
-  const { setup } = raw
+  const { setup } = type
   if (setup) {
-    const setupResult = setup()
+    const setupResult = setup(shallowReadonly(props), { emit: emit })
 
     handleSetupResult(componentInstance, setupResult)
   }

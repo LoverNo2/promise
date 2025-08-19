@@ -1,4 +1,4 @@
-import { ShapeFlags } from '../shared/index'
+import { ShapeFlags } from '../shared/shape'
 import { patch } from './patch'
 function processElement(vnode, container) {
   mountElement(vnode, container)

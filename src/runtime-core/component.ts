@@ -1,3 +1,4 @@
+import { emit } from './emit'
 import { patch } from './patch'
 import { setupComponent } from './setup'
 
@@ -21,11 +22,16 @@ function setupRenderEffect(componentInstance, container) {
 function createComponentInstance(vnode) {
   const componentInstance = {
     vnode,
+    children: vnode.children,
     type: vnode.type,
     setupState: {},
     render: null,
     props: {},
+    emit,
+    slots: {},
   }
+  componentInstance.emit = emit.bind(null, componentInstance)
+
   return componentInstance
 }
 

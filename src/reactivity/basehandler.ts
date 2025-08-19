@@ -1,4 +1,4 @@
-import { isArray, isObject } from '../shared'
+import { isArray, isObject } from '../shared/utils'
 import { track, trigger } from './effect'
 import { ReactiveFlags } from './flag'
 import { reactive, readonly } from './reactive'
@@ -41,7 +41,7 @@ function createGetter(isReadonly = false, isShallow = false) {
 function createSetter(isReadonly = false) {
   return function set(target, key, value) {
     if (isReadonly) {
-      console.warn(`Set operation on key "${key}" failed: target is readonly.`, target)
+      console.error(`Set operation on key "${key}" failed: target is readonly.`, target)
       // Proxy规范要求返回布尔值
       return true
     }
