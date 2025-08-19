@@ -1,4 +1,5 @@
 import { emit } from './emit'
+import { handler } from './handler'
 import { patch } from './patch'
 import { setupComponent } from './setup'
 
@@ -6,33 +7,31 @@ function processComponent(vnode, container) {
   mountComponent(vnode, container)
 }
 function mountComponent(vnode, container) {
-  const componentInstance = createComponentInstance(vnode)
-  setupComponent(componentInstance)
-  setupRenderEffect(componentInstance, container)
+  const instance = createInstance(vnode)
+  setupComponent(instance)
+  setupRenderEffect(instance, container)
 }
 
-async function setupRenderEffect(componentInstance, container) {
-  const { proxy } = componentInstance
+async function setupRenderEffect(instance, container) {
+  instance.proxy = new Proxy({ _: instance }, handler)
+  const { proxy } = instance
   // 这一步中会执行component的children中的h方法
-  const subTree = componentInstance.render.call(proxy)
-  componentInstance.vnode = subTree
+  const subTree = instance.render.call(proxy)
+  instance.vnode.el = subTree
   patch(subTree, container)
 }
 
-function createComponentInstance(vnode) {
-  const componentInstance = {
+function createInstance(vnode) {
+  const instance = {
     vnode,
-    children: vnode.children,
-    type: vnode.type,
     setupState: {},
-    render: null,
-    props: {},
-    emit,
-    slots: {},
+    props: {}, // 来自父组件的参数或者是emit事件
+    emit, // emit方法
+    slots: {}, // 插槽
   }
-  componentInstance.emit = emit.bind(null, componentInstance)
+  instance.emit = emit.bind(null, instance)
 
-  return componentInstance
+  return instance
 }
 
 export { processComponent }

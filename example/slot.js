@@ -3,10 +3,16 @@ import { renderSlots } from '../dist/index.js'
 
 const slot = {
   setup(props, { emit }) {
-    return {}
+    return {
+      a: 1,
+    }
   },
   render() {
-    return h('h2', {}, [renderSlots(this.$slots, 'two'), h('div', {}, 'title'), renderSlots(this.$slots, 'one', 1)])
+    return h('h2', {}, [
+      renderSlots(this.$slots, 'two'),
+      h('div', {}, 'title'),
+      renderSlots(this.$slots, 'one', this.a),
+    ])
   },
 }
 export { slot }

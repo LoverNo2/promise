@@ -1,5 +1,5 @@
-function emit(componentInstance, event, ...args) {
-  const { props } = componentInstance
+function emit(instance, event, ...args) {
+  const { props } = instance
   const handler = props[event]
   handler && handler(...args)
 }

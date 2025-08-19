@@ -6,23 +6,21 @@ import { slot } from './slot.js'
 const app = {
   render() {
     return h('h1', {}, [
-      // h(
-      //   'div',
-      //   {
-      //     onClick() {
-      //       console.log('click h1')
-      //     },
-      //   },
-      //   this.count
-      // ),
-      // h('div', {}, 'hello'),
-      // h(props, { count: 1 }),
-      // h(emit, {
-      //   add(a, b, c) {
-      //     console.log('add', a, b, c)
-      //   },
-      // }),
-      h(slot, {}, { one: age => h('h3', {}, 'one' + age), two: h('h3', {}, 'two') }),
+      h('div', {}, 'hello'),
+      h(props, { count: 6 }),
+      h(emit, {
+        add(a, b, c) {
+          console.log('add', a, b, c)
+        },
+      }),
+      h(
+        slot,
+        { count: 2 },
+        {
+          one: age => h('h3', { count: 3 }, 'one' + age),
+          two: h('h3', { count: 4 }, 'two'),
+        }
+      ),
     ])
   },
   setup() {
