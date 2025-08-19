@@ -13,4 +13,11 @@ export default {
     // },
   ],
   plugins: [typescript()],
+  onwarn(warning, warn) {
+    // 过滤掉循环依赖警告
+    if (warning.code === 'CIRCULAR_DEPENDENCY') {
+      return
+    }
+    warn(warning)
+  },
 }

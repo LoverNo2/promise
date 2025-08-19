@@ -11,7 +11,7 @@ function mountComponent(vnode, container) {
   setupRenderEffect(componentInstance, container)
 }
 
-function setupRenderEffect(componentInstance, container) {
+async function setupRenderEffect(componentInstance, container) {
   const { proxy } = componentInstance
   // 这一步中会执行component的children中的h方法
   const subTree = componentInstance.render.call(proxy)

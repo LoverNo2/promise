@@ -1,4 +1,3 @@
-import { isObject } from '../shared/utils'
 import { reactiveHandler, readonlyHandler, shallowReactiveHandler, shallowReadonlyHandler } from './basehandler'
 
 import { ReactiveFlags } from './flag'
